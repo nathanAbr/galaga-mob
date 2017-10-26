@@ -1,6 +1,5 @@
 import QtQuick 2.6
 import QtQuick.Window 2.2
-import QtSensors 5.0
 
 Window {
     id: mainWindow
@@ -15,47 +14,32 @@ Window {
 //        anchors.fill: parent
 //    }
 
-    Spaceship{
-        id: spaceShip
-        width: 50
-        height: 50
-    }
-
-    MouseArea{
-        anchors.fill: parent
-        onClicked:{
-            var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y});
+    Column{
+        id: menu
+        width: 500
+        height: 400
+        spacing: 5
+        anchors.centerIn: parent
+        Rectangle{
+            id: buttonPlay
+            width: 150
+            height: 40
+            x: parent.width / 2 - width / 2
+            color: "#2222DD"
+            Text{
+                text: "PLAY GAME"
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                id: mouseArea
+                anchors.fill: parent
+                onClicked: {
+                    menu.visible = false
+                    var component = Qt.createComponent("Game.qml");
+                    var sprite = component.createObject(mainWindow);
+                }
+            }
         }
     }
 
-    Accelerometer{
-        id: accel
-        dataRate: 200
-        active: true
-
-        onReadingChanged:{
-            var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1
-            var yPos = spaceShip.y - calcPitch(accel.reading.x, accel.reading.y, accel.reading.z) * .1
-
-            if(xPos > mainWindow.width - spaceShip.width)
-                xPos = mainWindow - spaceShip.width
-            if(xPos < 0)
-                xPos = 0
-            if(yPos < 18)
-                yPos = 18
-            if(yPos > mainWindow.height - spaceShip.height)
-                yPos = mainWindow.height - spaceShip.height
-
-            spaceShip.x = xPos
-            spaceShip.y = yPos
-        }
-    }
-
-    function calcPitch(x,y,z) {
-        return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795);
-    }
-    function calcRoll(x,y,z) {
-        return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
-    }
 }
