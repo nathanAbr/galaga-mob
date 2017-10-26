@@ -4,9 +4,39 @@
         <file>Spaceship.qml</file>
         <file>Gun.qml</file>
         <file>Game.qml</file>
+        <file>Ennemies.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>
         <file>fonds.jpg</file>
+    </qresource>
+    <qresource prefix="/content/sounds">
+        <file>bossgalaga_destroyed.wav</file>
+        <file>bossgalaga_destroyed2.wav</file>
+        <file>bossgalaga_hatch.wav</file>
+        <file>bossgalaga_injured.wav</file>
+        <file>bossgalaga_injured2.wav</file>
+        <file>captured_ship_destroyed.wav</file>
+        <file>coin_credit.wav</file>
+        <file>explosion.wav</file>
+        <file>extra_ship.wav</file>
+        <file>fighter_captured.wav</file>
+        <file>fighter_destroyed.wav</file>
+        <file>fighter_rescued.wav</file>
+        <file>galaga_destroyed.wav</file>
+        <file>galaga_destroyed2.wav</file>
+        <file>galaga_dive.wav</file>
+        <file>galaga_grumble.wav</file>
+        <file>galaspark_groan.wav</file>
+        <file>galaspark_injured.wav</file>
+        <file>laser_default.wav</file>
+        <file>laser_fastshot.wav</file>
+        <file>laser_ricochetshot.wav</file>
+        <file>laser_widebeam.wav</file>
+        <file>powerup.wav</file>
+        <file>result_screen_beep.wav</file>
+        <file>tractor_beam1.wav</file>
+        <file>tractor_beam2.wav</file>
+        <file>tractor_beam3.wav</file>
     </qresource>
 </RCC>

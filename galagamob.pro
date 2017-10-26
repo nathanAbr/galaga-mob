@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick sensors
+QT += qml quick sensors multimedia
 CONFIG += c++11
 
 SOURCES += main.cpp

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtSensors 5.0
+import QtMultimedia 5.9
 
 Item {
     anchors.fill: parent
@@ -9,11 +10,17 @@ Item {
         height: 50
     }
 
+    SoundEffect{
+        id: soundShoot
+        source: "content/sounds/laser_widebeam.wav"
+    }
+
     MouseArea{
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y});
+            soundShoot.play();
         }
     }
 
@@ -45,5 +52,24 @@ Item {
     }
     function calcRoll(x,y,z) {
         return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
+    }
+
+    Rectangle{
+        color: "transparent"
+        width: parent.width
+        height: 200
+        anchors.centerIn: parent
+        Grid{
+            columns: 10
+            spacing: 5
+            anchors.centerIn: parent
+            Ennemies{
+            }
+            Ennemies{
+            }
+            Ennemies{
+            }
+        }
+
     }
 }

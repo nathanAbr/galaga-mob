@@ -1,5 +1,6 @@
 import QtQuick 2.6
 import QtQuick.Window 2.2
+import QtMultimedia 5.9
 
 Window {
     id: mainWindow
@@ -13,6 +14,11 @@ Window {
 //        source: "content/fonds.jpg"
 //        anchors.fill: parent
 //    }
+
+    SoundEffect{
+        id: soundClickMenu
+        source: "content/sounds/explosion.wav"
+    }
 
     Column{
         id: menu
@@ -37,6 +43,7 @@ Window {
                     menu.visible = false
                     var component = Qt.createComponent("Game.qml");
                     var sprite = component.createObject(mainWindow);
+                    soundClickMenu.play();
                 }
             }
         }
