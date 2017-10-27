@@ -7,6 +7,7 @@ Rectangle {
     property real column
     property real customPadding
     property real offset
+    property int pointValue
     color: "red"
     x: customPadding + (column * width) + (column * customPadding) + offset
     y: customPadding + (row * width) + (row * customPadding)
