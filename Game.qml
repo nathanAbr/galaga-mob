@@ -4,10 +4,15 @@ import QtMultimedia 5.9
 
 Item {
     anchors.fill: parent
+    property int random: Math.floor((Math.random() * 30) + 20);
     Spaceship{
         id: spaceShip
         width: 50
         height: 50
+    }
+
+    ListEnnemies{
+        id: listEnnemies
     }
 
     SoundEffect{
@@ -19,6 +24,7 @@ Item {
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
+            component.listEnnemies = listEnnemies
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y});
             soundShoot.play();
         }
@@ -52,24 +58,5 @@ Item {
     }
     function calcRoll(x,y,z) {
         return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
-    }
-
-    Rectangle{
-        color: "transparent"
-        width: parent.width
-        height: 200
-        anchors.centerIn: parent
-        Grid{
-            columns: 10
-            spacing: 5
-            anchors.centerIn: parent
-            Ennemies{
-            }
-            Ennemies{
-            }
-            Ennemies{
-            }
-        }
-
     }
 }
