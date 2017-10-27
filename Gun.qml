@@ -13,24 +13,24 @@ Rectangle{
         running: false
         NumberAnimation{
             target: gun
-            property: "y"
+            properties: "y"
             duration: 1000
             to: 0 - gun.height
-            onPropertyChanged: {
-                console.log("change");
-                for(var i = 0;i>listEnnemies.children.lenght;i++){
-                    if(listEnnemies.children[i].y === gun.y - gun.height){
-                        console.log("ennemi ok");
-                        if(gun.x >= listEnnemies.children[i].x && gun.x <= listEnnemies.children[i].x + listEnnemies.children[i].height){
-                            console.log("ennemi encore ok");
-                            listEnnemies.children[i].destroy();
-                            gun.destroy();
-                        }
-                    }
-                }
-            }
             onRunningChanged: {
                 if(!running){
+                    gun.destroy();
+                }
+            }
+        }
+    }
+    onYChanged: {
+        console.log("Missile");
+        for(var i = 0;i>listEnnemies.children.lenght;i++){
+            if(listEnnemies.children[i].y === gun.y - gun.height){
+                console.log("ennemi ok");
+                if(gun.x >= listEnnemies.children[i].x && gun.x <= listEnnemies.children[i].x + listEnnemies.children[i].height){
+                    console.log("ennemi encore ok");
+                    listEnnemies.children[i].destroy();
                     gun.destroy();
                 }
             }

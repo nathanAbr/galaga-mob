@@ -24,8 +24,7 @@ Item {
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
-            component.listEnnemies = listEnnemies
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y});
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnnemies": listEnnemies});
             soundShoot.play();
         }
     }
