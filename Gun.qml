@@ -24,11 +24,17 @@ Rectangle{
         }
     }
     onYChanged: {
-        console.log("Missile");
-        for(var i = 0;i>listEnnemies.children.lenght;i++){
-            if(listEnnemies.children[i].y === gun.y - gun.height){
+        for(var i = 0 ; i < listEnnemies.children.length ; i++){
+            var enemy = listEnnemies.children[i];
+            console.log("Debut");
+            console.log(enemy.y);
+            console.log(gun.y);
+            console.log(enemy.height);
+            var yHeight = enemy.y + enemy.height;
+            console.log(yHeight);
+            if(gun.y >= enemy.y && gun.y <= yHeight){
                 console.log("ennemi ok");
-                if(gun.x >= listEnnemies.children[i].x && gun.x <= listEnnemies.children[i].x + listEnnemies.children[i].height){
+                if(gun.x >= enemy.x && gun.x <= enemy.x + enemy.height){
                     console.log("ennemi encore ok");
                     listEnnemies.children[i].destroy();
                     gun.destroy();
