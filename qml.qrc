@@ -4,9 +4,8 @@
         <file>Spaceship.qml</file>
         <file>Gun.qml</file>
         <file>Game.qml</file>
-        <file>Ennemies.qml</file>
-        <file>ListEnnemies.qml</file>
         <file>Menu.qml</file>
+        <file>Enemy.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>
