@@ -3,8 +3,10 @@ import QtSensors 5.0
 import QtMultimedia 5.9
 
 Item {
+    id: gameScreen
     anchors.fill: parent
     property int random: Math.floor((Math.random() * 30) + 20);
+    property alias ennemies: listEnnemies
     Spaceship{
         id: spaceShip
         width: 50
@@ -13,6 +15,8 @@ Item {
 
     ListEnnemies{
         id: listEnnemies
+        width: parent.width
+        height: 250
     }
 
     SoundEffect{
@@ -24,7 +28,7 @@ Item {
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnnemies": listEnnemies});
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y});
             soundShoot.play();
         }
     }
@@ -58,4 +62,7 @@ Item {
     function calcRoll(x,y,z) {
         return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
     }
+//    function destroyEnnemy(index){
+//        gameScreen.listEnnemies.children[index].destroy();
+//    }
 }

@@ -1,13 +1,13 @@
 import QtQuick 2.0
 
-Item {
-
+Rectangle {
+    id: enemy
     width: 50
     height: 50
+    color: "red"
+    property bool dead: false
 
-    Rectangle{
-        anchors.fill: parent
-        color: "red"
+    onOpacityChanged: {
+        dead = true
     }
-
 }

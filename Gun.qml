@@ -7,7 +7,7 @@ Rectangle{
     height: 15
     x: 0
     y: 0
-    property Grid listEnnemies
+    property Grid listEnnemies: gameScreen.ennemies
     SequentialAnimation{
         id: gunShoot
         running: false
@@ -26,18 +26,13 @@ Rectangle{
     onYChanged: {
         for(var i = 0 ; i < listEnnemies.children.length ; i++){
             var enemy = listEnnemies.children[i];
-            console.log("Debut");
-            console.log(enemy.y);
-            console.log(gun.y);
-            console.log(enemy.height);
-            var yHeight = enemy.y + enemy.height;
-            console.log(yHeight);
-            if(gun.y >= enemy.y && gun.y <= yHeight){
-                console.log("ennemi ok");
-                if(gun.x >= enemy.x && gun.x <= enemy.x + enemy.height){
-                    console.log("ennemi encore ok");
-                    listEnnemies.children[i].destroy();
-                    gun.destroy();
+            if(!enemy.dead){
+                var yHeight = enemy.y + enemy.height;
+                if(gun.y >= enemy.y && gun.y <= yHeight){
+                    if(gun.x >= enemy.x && gun.x <= enemy.x + enemy.height){
+                        enemy.opacity = 0;
+                        gun.destroy();
+                    }
                 }
             }
         }
