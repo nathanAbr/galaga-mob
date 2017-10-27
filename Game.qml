@@ -6,42 +6,98 @@ Item {
     id: game
     anchors.fill: parent
     property int random: Math.floor((Math.random() * 30) + 20);
-    property ListModel listEnemies
     property real customPadding: 10
+    property real offsetMax
+    property real nbColumn: 8
+    property real offsetMin: 0
+    property real dir
 
-    Component.onCompleted: createEnemies();
+    Component.onCompleted: createEnemies()
+
+    ListModel{
+        id: listEnemies
+    }
+
+    Timer {
+        interval: 17; running: true; repeat: true;
+        onTriggered: moveEnemies()
+    }
+
+    function moveEnemies(){
+        if (listEnemies.count == 0){
+            return;
+        }
+        var rand = Math.random() * 100;
+        console.debug(rand);
+        if(rand > 99){
+            game.dir = (game.dir == 0 ? 1 : 0);
+        }
+        var vitesse = -1;
+        for (var i = 0 ; i < game.dir ; i ++){
+            vitesse = vitesse * (-1);
+        }
+
+        var minEnemy = listEnemies.get(0);
+        var maxEnemy;
+        if (listEnemies.count < 7){
+            maxEnemy = listEnemies.get(listEnemies.count - 1);
+        }else{
+            maxEnemy = listEnemies.get(7);
+        }
+        var minX = minEnemy.customPadding + (minEnemy.column * minEnemy.size) + (minEnemy.column * minEnemy.customPadding) + minEnemy.offset
+        var maxY = maxEnemy.customPadding + (maxEnemy.column * maxEnemy.size) + (maxEnemy.column * maxEnemy.customPadding) + maxEnemy.offset + maxEnemy.size
+        if (game.dir == 0){
+            if (minX + vitesse < 0){
+                game.dir = (game.dir == 0 ? 1 : 0);
+            }
+        }else{
+            if (maxY + vitesse > game.width){
+                game.dir = (game.dir == 0 ? 1 : 0);
+            }
+        }
+        vitesse = -1;
+        for (var i = 0 ; i < game.dir ; i ++){
+            vitesse = vitesse * (-1);
+        }
+
+        for(var i = 0 ; i < listEnemies.count ; i++){
+            listEnemies.get(i).offset += (vitesse*3);
+        }
+    }
 
     Repeater{
-        model: game.listEnemies
-        Rectangle{
-            width: model.width
-            height: model.height
-            color: "red"
-            x: model.x
-            y: model.y
+        model: listEnemies
+        Enemy{
+            row: model.row
+            column: model.column
+            customPadding: game.customPadding
+            offset: model.offset
+            width: model.size
+            height: model.size
         }
     }
 
     function createEnemies(){
         var xi = 0;
         var yi = 0;
-        var columnMax = 8;
-        var component = Qt.createComponent("Enemy.qml");
-        var newModel = Qt.createQmlObject('import QtQuick 2.2; \ ListModel {}', parent);
+        var columnMax = game.nbColumn;
+        game.dir = 1;
         for (var i = 1 ; i < random ; i++){
-            var enemy = component.createObject(mainWindow, {"row" : yi, "column" : xi});
-            enemy.x = game.customPadding + (xi * enemy.width) + (xi * game.customPadding);
-            enemy.y = game.customPadding + (yi * enemy.width) + (yi * game.customPadding);
-            newModel.append(enemy);
+            listEnemies.append(
+                        {
+                            "row" : yi,
+                            "column" : xi,
+                            "customPadding": game.customPadding,
+                            "offset": 0,
+                            "size": 50
+                        });
             xi++;
             if (i % columnMax == 0){
                 yi++;
                 xi = 0;
             }
-            console.log(enemy.toString());
         }
-        game.listEnemies = newModel;
-        console.log(game.listEnemies.count);
+        console.log('init finished');
     }
 
     Spaceship{
@@ -59,7 +115,7 @@ Item {
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": game.listEnemies});
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding});
             soundShoot.play();
         }
     }

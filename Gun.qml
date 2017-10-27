@@ -8,6 +8,7 @@ Rectangle{
     x: 0
     y: 0
     property ListModel listEnemies
+    property real customPadding
 
     SequentialAnimation{
         id: gunShoot
@@ -25,14 +26,14 @@ Rectangle{
         }
     }
     onYChanged: {
-        console.log(listEnemies);
         for(var i = 0 ; i < listEnemies.count ; i++){
-            var enemy = listEnemies.get(i);
-            var yHeight = enemy.y + enemy.height;
-            var xHeight = enemy.x + enemy.height;
-            if(gun.y >= enemy.y && gun.y <= yHeight){
-                if(gun.x >= enemy.x && gun.x <= xHeight){
-                    console.log("removed");
+            var data = listEnemies.get(i);
+            var enemyX = data.customPadding + (data.column * data.size) + (data.column * data.customPadding) + data.offset
+            var enemyY = data.customPadding + (data.row * data.size) + (data.row * data.customPadding)
+            var yHeight = enemyY + data.size;
+            var xHeight = enemyX + data.size;
+            if(gun.y >= enemyY && gun.y <= yHeight){
+                if(gun.x >= enemyX && gun.x <= xHeight){
                     listEnemies.remove(i);
                     gun.destroy();
                 }

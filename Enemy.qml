@@ -1,8 +1,13 @@
 import QtQuick 2.0
 
-Item {
+Rectangle {
     width: 50
     height: 50
     property real row
     property real column
+    property real customPadding
+    property real offset
+    color: "red"
+    x: customPadding + (column * width) + (column * customPadding) + offset
+    y: customPadding + (row * width) + (row * customPadding)
 }
