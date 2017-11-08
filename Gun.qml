@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle{
     color: "red"
     id: gun
-    width: 4
+    width: 5
     height: 15
     x: 0
     y: 0

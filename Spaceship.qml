@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.LocalStorage 2.0
 
 Item {
     width: 50
@@ -11,6 +12,12 @@ Item {
         source: "/content/spacesheep.png"
     }
     onVisibleChanged: {
-        gameLoader.source = "main.qml"
+        mainWindow.db.transaction(
+            function(tx){
+                var date = new Date();
+                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDay() + " " + date.getMonth() + " " + date.getFullYear(), game.scores + " points"]);
+            }
+        );
+        gameLoader.source = "main.qml";
     }
 }
