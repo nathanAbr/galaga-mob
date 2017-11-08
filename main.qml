@@ -21,7 +21,7 @@ ApplicationWindow {
     }
 
     Image{
-        source: "content/fonds.jpg"
+        source: "content/background.png"
         anchors.fill: parent
         autoTransform: true
     }

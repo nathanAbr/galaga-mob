@@ -28,7 +28,7 @@ Item {
         id: scoresView
         width: 200
         text: "Scores :" + game.scores.toString()
-        color: "black"
+        color: "white"
         fontSizeMode: Text.Fit
         minimumPointSize: 10
         font.pointSize: 20
@@ -40,7 +40,7 @@ Item {
         width: 200
         x : game.width-200
         text: "Lives :" + spaceShip.lives.toString()
-        color: "black"
+        color: "white"
         fontSizeMode: Text.Fit
         minimumPointSize: 10
         font.pointSize: 20
