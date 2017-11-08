@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
 Rectangle{
-    color: "red"
+    color: "green"
     id: gun
-    width: 5
-    height: 15
+    width: 8
+    height: 25
     x: 0
     y: 0
     property ListModel listEnemies
