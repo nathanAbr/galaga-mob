@@ -14,6 +14,7 @@ ApplicationWindow {
     Component.onCompleted: {
         db.transaction(
             function(tx){
+                tx.executeSql('DROP TABLE IF EXISTS Scores');
                 tx.executeSql('CREATE TABLE IF NOT EXISTS Scores(date TEXT, score INTEGER)');
             }
         );
