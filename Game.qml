@@ -38,7 +38,7 @@ Item {
     Text{
         id: livesView
         width: 200
-        x : x + 200
+        x : game.width-200
         text: "Lives :" + spaceShip.lives.toString()
         color: "black"
         fontSizeMode: Text.Fit
@@ -52,10 +52,10 @@ Item {
         onTriggered: moveEnemies()
     }
 
-//    Timer {
-//        interval: 20000; running: true; repeat: true;
-//        onTriggered: createEnemies()
-//    }
+    Timer {
+        interval: 20000; running: true; repeat: true;
+        onTriggered: createEnemies()
+    }
 
     function getLeftAndRightEnemies(){
         var rightTempIndex = 0;
