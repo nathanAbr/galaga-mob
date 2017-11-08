@@ -8,7 +8,7 @@ Item {
         color: "white"
         fontSizeMode: Text.Fit
         minimumPointSize: 10
-        font.pointSize: 20
+        font.pointSize: 30
         text: ""
         function getScores(){
             mainWindow.db.transaction(

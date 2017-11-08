@@ -16,7 +16,7 @@ Item {
         mainWindow.db.transaction(
             function(tx){
                 var date = new Date();
-                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDay() + " " + date.getMonth() + " " + date.getFullYear(), game.scores + " points"]);
+                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), game.scores + " points"]);
             }
         );
         gameLoader.source = "main.qml";
