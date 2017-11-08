@@ -6,6 +6,7 @@
         <file>Game.qml</file>
         <file>Menu.qml</file>
         <file>Enemy.qml</file>
+        <file>EnemyFire.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>
