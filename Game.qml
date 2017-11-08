@@ -58,9 +58,6 @@ Item {
             leftTemp = listEnemies.get(leftTempIndex);
             var tempMinX = enemy.customPadding + (enemy.column * enemy.size) + (enemy.column * enemy.customPadding) + enemy.offset;
             var tempMaxX = tempMinX + enemy.size;
-            console.log('debut');
-            console.log(maxX);
-            console.log(tempMaxX);
             if (tempMinX < minX){
                 minX = tempMinX;
                 rightTempIndex = i;
@@ -70,13 +67,8 @@ Item {
                 leftTempIndex = i;
             }
         }
-        console.log(rightTemp.row);
-        console.log(leftTemp.row);
-        console.log(rightTemp.column);
-        console.log(leftTemp.column);
         game.rightEnemy = rightTempIndex;
         game.leftEnemy = leftTempIndex;
-        console.log('fin');
     }
 
     function moveEnemies(){
