@@ -13,7 +13,7 @@ Item {
         function getScores(){
             mainWindow.db.transaction(
                 function(tx) {
-                    var rs = tx.executeSql('SELECT * FROM Scores');
+                    var rs = tx.executeSql('SELECT * FROM Scores ORDER BY score DESC');
                     var r = "";
                     for (var i = 0; i < rs.rows.length; i++) {
                         r += rs.rows.item(i).date + ", " + rs.rows.item(i).score + "\n";
