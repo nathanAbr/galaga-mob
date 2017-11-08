@@ -33,7 +33,7 @@ Rectangle{
     onYChanged: {
         if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
             if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
-                spaceShip.visible = false;
+                spaceShip.lives--;
                 //spaceShipExplosion.play();
                 enemyFire.destroy();
             }
