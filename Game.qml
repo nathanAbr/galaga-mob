@@ -4,6 +4,7 @@ import QtMultimedia 5.9
 
 Item {
     id: game
+    focus: true
     anchors.fill: parent
     property int random: Math.floor((Math.random() * 60) + 40);
     property real customPadding: 10
@@ -39,10 +40,10 @@ Item {
         onTriggered: moveEnemies()
     }
 
-    Timer {
-        interval: 20000; running: true; repeat: true;
-        onTriggered: createEnemies()
-    }
+//    Timer {
+//        interval: 20000; running: true; repeat: true;
+//        onTriggered: createEnemies()
+//    }
 
     function getLeftAndRightEnemies(){
         var rightTempIndex = 0;
@@ -150,7 +151,7 @@ Item {
             }
         }
         game.lastCount = listEnemies.count;
-        game.getLeftAndRightEnemies();
+        //game.getLeftAndRightEnemies();
     }
 
     Spaceship{
@@ -159,24 +160,29 @@ Item {
         height: 50
     }
 
-    SoundEffect{
-        id: soundShoot
-        source: "content/sounds/laser_widebeam.wav"
-    }
+//    SoundEffect{
+//        id: soundShoot
+//        source: "content/sounds/laser_widebeam.wav"
+//    }
 
     MouseArea{
         anchors.fill: parent
+        hoverEnabled: true
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding});
-            soundShoot.play();
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
+            //soundShoot.play();
+        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
         }
     }
 
     Accelerometer{
         id: accel
         dataRate: 200
-        active: true
+        active: false
 
         onReadingChanged:{
             var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1

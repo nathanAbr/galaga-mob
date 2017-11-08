@@ -3,12 +3,14 @@ import QtQuick 2.0
 Rectangle{
     color: "red"
     id: gun
-    width: 2
+    width: 4
     height: 15
     x: 0
     y: 0
     property ListModel listEnemies
     property real customPadding
+    property real windowHeight
+    property real spaceY
 
     SequentialAnimation{
         id: gunShoot
@@ -16,7 +18,7 @@ Rectangle{
         NumberAnimation{
             target: gun
             properties: "y"
-            duration: 1000
+            duration: spaceY * 1000 / windowHeight
             to: 0 - gun.height
             onRunningChanged: {
                 if(!running){
@@ -34,7 +36,6 @@ Rectangle{
             var xHeight = enemyX + data.size;
             if(gun.y >= enemyY && gun.y <= yHeight){
                 if(gun.x >= enemyX && gun.x <= xHeight){
-                    console.log(data.pointValue, game.scores);
                     game.scores = game.scores + data.pointValue;
                     listEnemies.remove(i);
                     gun.destroy();
@@ -42,5 +43,7 @@ Rectangle{
             }
         }
     }
+
     Component.onCompleted: gunShoot.running = true
+
 }

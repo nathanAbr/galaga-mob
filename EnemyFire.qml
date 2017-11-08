@@ -4,7 +4,7 @@ import QtMultimedia 5.9
 Rectangle{
     color: "red"
     id: enemyFire
-    width: 2
+    width: 4
     height: 15
     x: 0
     y: 0
@@ -25,19 +25,19 @@ Rectangle{
             }
         }
     }
-    SoundEffect{
-        id: spaceShipExplosion
-        source: "content/sounds/explosion.wav"
-    }
+//    SoundEffect{
+//        id: spaceShipExplosion
+//        source: "content/sounds/explosion.wav"
+//    }
 
-    onYChanged: {
-        if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
-            if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
-                spaceShip.visible = false;
-                spaceShipExplosion.play();
-                enemyFire.destroy();
-            }
-        }
-    }
+//    onYChanged: {
+//        if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
+//            if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
+////                spaceShip.visible = false;
+////                spaceShipExplosion.play();
+////                enemyFire.destroy();
+//            }
+//        }
+//    }
     Component.onCompleted: enemeyFireShoot.running = true
 }
