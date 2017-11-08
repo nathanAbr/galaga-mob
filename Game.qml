@@ -5,12 +5,16 @@ import QtMultimedia 5.9
 Item {
     id: game
     anchors.fill: parent
-    property int random: Math.floor((Math.random() * 30) + 20);
+    property int random: Math.floor((Math.random() * 60) + 40);
     property real customPadding: 10
-    property real offsetMax
-    property real nbColumn: 8
+    property real offset
+    property real nbColumn: 16
     property real offsetMin: 0
     property real dir
+    property real rightEnemy
+    property real leftEnemy
+    property real lastCount
+    property real level: 0
 
     Component.onCompleted: createEnemies()
 
@@ -23,12 +27,56 @@ Item {
         onTriggered: moveEnemies()
     }
 
+    Timer {
+        interval: 20000 / game.level; running: true; repeat: true;
+        onTriggered: createEnemies()
+    }
+
+    function getLeftAndRightEnemies(){
+        var rightTempIndex = 0;
+        var leftTempIndex = 0;
+        var rightTemp = listEnemies.get(rightTempIndex);
+        var leftTemp = listEnemies.get(leftTempIndex);
+        var minX = rightTemp.customPadding + (rightTemp.column * rightTemp.size) + (rightTemp.column * rightTemp.customPadding) + rightTemp.offset;
+        var maxX = leftTemp.customPadding + (leftTemp.column * leftTemp.size) + (leftTemp.column * leftTemp.customPadding) + leftTemp.offset + leftTemp.size;
+
+        for (var i = 0 ; i < listEnemies.count ; i++){
+            var enemy = listEnemies.get(i);
+            rightTemp = listEnemies.get(rightTempIndex);
+            leftTemp = listEnemies.get(leftTempIndex);
+            var tempMinX = enemy.customPadding + (enemy.column * enemy.size) + (enemy.column * enemy.customPadding) + enemy.offset;
+            var tempMaxX = tempMinX + enemy.size;
+            console.log('debut');
+            console.log(maxX);
+            console.log(tempMaxX);
+            if (tempMinX < minX){
+                minX = tempMinX;
+                rightTempIndex = i;
+            }
+            if (tempMaxX > maxX){
+                maxX = tempMaxX;
+                leftTempIndex = i;
+            }
+        }
+        console.log(rightTemp.row);
+        console.log(leftTemp.row);
+        console.log(rightTemp.column);
+        console.log(leftTemp.column);
+        game.rightEnemy = rightTempIndex;
+        game.leftEnemy = leftTempIndex;
+        console.log('fin');
+    }
+
     function moveEnemies(){
         if (listEnemies.count == 0){
+            createEnemies();
             return;
         }
+        if (listEnemies.count != game.lastCount){
+            game.getLeftAndRightEnemies();
+        }
+
         var rand = Math.random() * 100;
-        console.debug(rand);
         if(rand > 99){
             game.dir = (game.dir == 0 ? 1 : 0);
         }
@@ -37,15 +85,10 @@ Item {
             vitesse = vitesse * (-1);
         }
 
-        var minEnemy = listEnemies.get(0);
-        var maxEnemy;
-        if (listEnemies.count < 7){
-            maxEnemy = listEnemies.get(listEnemies.count - 1);
-        }else{
-            maxEnemy = listEnemies.get(7);
-        }
-        var minX = minEnemy.customPadding + (minEnemy.column * minEnemy.size) + (minEnemy.column * minEnemy.customPadding) + minEnemy.offset
-        var maxY = maxEnemy.customPadding + (maxEnemy.column * maxEnemy.size) + (maxEnemy.column * maxEnemy.customPadding) + maxEnemy.offset + maxEnemy.size
+        var minEnemy = listEnemies.get(game.rightEnemy);
+        var maxEnemy = listEnemies.get(game.leftEnemy);
+        var minX = minEnemy.customPadding + (minEnemy.column * minEnemy.size) + (minEnemy.column * minEnemy.customPadding) + minEnemy.offset;
+        var maxY = maxEnemy.customPadding + (maxEnemy.column * maxEnemy.size) + (maxEnemy.column * maxEnemy.customPadding) + maxEnemy.offset + maxEnemy.size;
         if (game.dir == 0){
             if (minX + vitesse < 0){
                 game.dir = (game.dir == 0 ? 1 : 0);
@@ -63,6 +106,7 @@ Item {
         for(var i = 0 ; i < listEnemies.count ; i++){
             listEnemies.get(i).offset += (vitesse*3);
         }
+        game.offset = listEnemies.get(0).offset;
     }
 
     Repeater{
@@ -82,13 +126,16 @@ Item {
         var yi = 0;
         var columnMax = game.nbColumn;
         game.dir = 1;
-        for (var i = 1 ; i < random ; i++){
+        game.level++;
+        var rand = Math.floor((Math.random() * 60) + 40);
+        var tempOffset = (game.offset != null ? game.offset : 0);
+        for (var i = 1 ; i < rand ; i++){
             listEnemies.append(
                         {
                             "row" : yi,
                             "column" : xi,
                             "customPadding": game.customPadding,
-                            "offset": 0,
+                            "offset": tempOffset,
                             "size": 50
                         });
             xi++;
@@ -97,7 +144,8 @@ Item {
                 xi = 0;
             }
         }
-        console.log('init finished');
+        game.lastCount = listEnemies.count;
+        game.getLeftAndRightEnemies();
     }
 
     Spaceship{

@@ -85,4 +85,8 @@ ApplicationWindow {
         id: gameLoader
         anchors.fill: parent
     }
+
+    function multip(a, b){
+        return a * b;
+    }
 }
