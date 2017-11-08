@@ -40,7 +40,7 @@ Item {
     }
 
     Timer {
-        interval: 20000 / game.level; running: true; repeat: true;
+        interval: 20000; running: true; repeat: true;
         onTriggered: createEnemies()
     }
 
