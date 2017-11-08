@@ -12,10 +12,10 @@ Rectangle {
     color: "red"
     x: customPadding + (column * width) + (column * customPadding) + offset
     y: customPadding + (row * width) + (row * customPadding)
-    SoundEffect{
-        id: soundEnemyShoot
-        source: "content/sounds/laser_fastshot.wav"
-    }
+//    SoundEffect{
+//        id: soundEnemyShoot
+//        source: "content/sounds/laser_fastshot.wav"
+//    }
     Timer{
         interval:  Math.floor((Math.random() * 10000) + 4000)
         running: true
@@ -23,7 +23,7 @@ Rectangle {
         onTriggered: {
             var component = Qt.createComponent("EnemyFire.qml");
             var sprite = component.createObject(mainWindow, {"x": parent.x + parent.width / 2, "y": parent.y});
-            soundEnemyShoot.play();
+            //soundEnemyShoot.play();
         }
     }
 }

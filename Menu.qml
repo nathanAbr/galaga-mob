@@ -3,10 +3,10 @@ import QtMultimedia 5.9
 
 Item {
     anchors.fill: parent
-    SoundEffect{
-        id: soundClickMenu
-        source: "content/sounds/explosion.wav"
-    }
+//    SoundEffect{
+//        id: soundClickMenu
+//        source: "content/sounds/explosion.wav"
+//    }
 
     Column{
         id: menu
@@ -31,7 +31,7 @@ Item {
                     menu.visible = false
                     var component = Qt.createComponent("Game.qml");
                     var sprite = component.createObject(mainWindow);
-                    soundClickMenu.play();
+                    //soundClickMenu.play();
                 }
             }
         }

@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle{
     color: "red"
     id: gun
-    width: 2
+    width: 5
     height: 15
     x: 0
     y: 0
@@ -34,7 +34,6 @@ Rectangle{
             var xHeight = enemyX + data.size;
             if(gun.y >= enemyY && gun.y <= yHeight){
                 if(gun.x >= enemyX && gun.x <= xHeight){
-                    console.log(data.pointValue, game.scores);
                     game.scores = game.scores + data.pointValue;
                     listEnemies.remove(i);
                     gun.destroy();

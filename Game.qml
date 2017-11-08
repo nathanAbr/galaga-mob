@@ -8,7 +8,7 @@ Item {
     property int random: Math.floor((Math.random() * 60) + 40);
     property real customPadding: 10
     property real offset
-    property real nbColumn: 16
+    property real nbColumn: 8
     property real offsetMin: 0
     property real dir
     property real rightEnemy
@@ -159,17 +159,17 @@ Item {
         height: 50
     }
 
-    SoundEffect{
-        id: soundShoot
-        source: "content/sounds/laser_widebeam.wav"
-    }
+//    SoundEffect{
+//        id: soundShoot
+//        source: "content/sounds/laser_widebeam.wav"
+//    }
 
     MouseArea{
         anchors.fill: parent
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding});
-            soundShoot.play();
+            //soundShoot.play();
         }
     }
 
