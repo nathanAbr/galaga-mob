@@ -35,6 +35,18 @@ Item {
         z: 10
     }
 
+    Text{
+        id: livesView
+        width: 200
+        x : x + 200
+        text: "Lives :" + spaceShip.lives.toString()
+        color: "black"
+        fontSizeMode: Text.Fit
+        minimumPointSize: 10
+        font.pointSize: 20
+        z: 10
+    }
+
     Timer {
         interval: 17; running: true; repeat: true;
         onTriggered: moveEnemies()
