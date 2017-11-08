@@ -34,6 +34,8 @@ Rectangle{
             var xHeight = enemyX + data.size;
             if(gun.y >= enemyY && gun.y <= yHeight){
                 if(gun.x >= enemyX && gun.x <= xHeight){
+                    console.log(data.pointValue, game.scores);
+                    game.scores = game.scores + data.pointValue;
                     listEnemies.remove(i);
                     gun.destroy();
                 }

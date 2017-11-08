@@ -10,4 +10,7 @@ Item {
         height: 50
         source: "/content/spacesheep.png"
     }
+    onVisibleChanged: {
+        gameLoader.source = "main.qml"
+    }
 }

@@ -15,11 +15,23 @@ Item {
     property real leftEnemy
     property real lastCount
     property real level: 0
+    property int scores: 0
 
     Component.onCompleted: createEnemies()
 
     ListModel{
         id: listEnemies
+    }
+
+    Text{
+        id: scoresView
+        width: 200
+        text: "Scores :" + game.scores.toString()
+        color: "black"
+        fontSizeMode: Text.Fit
+        minimumPointSize: 10
+        font.pointSize: 20
+        z: 10
     }
 
     Timer {
@@ -136,7 +148,8 @@ Item {
                             "column" : xi,
                             "customPadding": game.customPadding,
                             "offset": tempOffset,
-                            "size": 50
+                            "size": 50,
+                            "pointValue": 50
                         });
             xi++;
             if (i % columnMax == 0){
