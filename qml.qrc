@@ -12,6 +12,7 @@
     <qresource prefix="/content">
         <file>spacesheep.png</file>
         <file>fonds.jpg</file>
+        <file>enemy1.png</file>
     </qresource>
     <qresource prefix="/content/sounds">
         <file>bossgalaga_destroyed.wav</file>

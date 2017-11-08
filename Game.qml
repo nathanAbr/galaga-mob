@@ -185,16 +185,16 @@ Item {
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
             //soundShoot.play();
         }
-//        onPositionChanged:{
-//            spaceShip.x = mouseX;
-//            spaceShip.y = mouseY;
-//        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
+        }
     }
 
     Accelerometer{
         id: accel
         dataRate: 200
-        active: true
+        active: false
 
         onReadingChanged:{
             var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1
