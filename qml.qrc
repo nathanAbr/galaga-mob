@@ -8,6 +8,7 @@
         <file>EnemyFire.qml</file>
         <file>Scores.qml</file>
         <file>Menu.qml</file>
+        <file>PageLoader.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>

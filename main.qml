@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtMultimedia 5.9
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
+import Qt.loader.qLoaderPageSingleton 1.0
 
 ApplicationWindow {
     id: mainWindow
@@ -26,10 +27,11 @@ ApplicationWindow {
         autoTransform: true
     }
 
+
+
     Loader{
-        id: gameLoader
+        source: LoaderPage.url
         anchors.fill: parent
-        source: "Menu.qml"
     }
 
     function multip(a, b){
