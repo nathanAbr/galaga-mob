@@ -11,7 +11,6 @@
         <file>PageLoader.qml</file>
         <file>GameOver.qml</file>
         <file>Score.qml</file>
-        <file>GameBis.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>
@@ -21,6 +20,12 @@
         <file>star1.png</file>
         <file>sprites_0.png</file>
         <file>sprites_1.png</file>
+        <file>sprites_2.png</file>
+        <file>stars_0.png</file>
+        <file>stars_1.png</file>
+        <file>stars_2.png</file>
+        <file>stars_3.png</file>
+        <file>stars_4.png</file>
     </qresource>
     <qresource prefix="/content/sounds">
         <file>bossgalaga_destroyed.wav</file>
