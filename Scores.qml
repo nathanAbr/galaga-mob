@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import Qt.loader.qLoaderPageSingleton 1.0
+import Qt.db.qDatabaseSingleton 1.0
 
 Item {
     anchors.fill: parent
@@ -12,7 +13,7 @@ Item {
     }
 
     Rectangle{
-        width: childrenRect.width + 100
+        width: parent.width
         height: parent.height / 2
         anchors.centerIn: parent
         color: 'transparent'
@@ -52,7 +53,7 @@ Item {
     }
 
     function getScore(){
-        mainWindow.db.transaction(
+        Database.db.transaction(
             function(tx) {
                 var rs = tx.executeSql('SELECT * FROM Scores ORDER BY score DESC');
                 for (var i = 0; i < rs.rows.length; i++) {

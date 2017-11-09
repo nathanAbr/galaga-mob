@@ -9,8 +9,10 @@
         <file>Scores.qml</file>
         <file>Menu.qml</file>
         <file>PageLoader.qml</file>
+        <file>SoundManager.qml</file>
         <file>GameOver.qml</file>
         <file>Score.qml</file>
+        <file>Database.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>

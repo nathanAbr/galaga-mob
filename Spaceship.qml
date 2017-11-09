@@ -15,12 +15,6 @@ Item {
     }
     onLivesChanged: {
         if (lives == 0){
-//            mainWindow.db.transaction(
-//                function(tx){
-//                    var date = new Date();
-//                    tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), game.scores]);
-//                }
-//            );
             LoaderPage.url = "qrc:/GameOver.qml"
         }
     }

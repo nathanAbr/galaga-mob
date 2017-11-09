@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtSensors 5.0
 import QtMultimedia 5.9
+import Qt.SoundManager.qSoundManagerSingleton 1.0
 import Qt.score.qScoreSingleton 1.0
 
 Item {
@@ -29,51 +30,53 @@ Item {
         id: listEnemies
     }
 
-    Text{
-        id: scoresView
-        width: 200
-        text: "Score :" + Score.score.toString()
-        color: "white"
-        fontSizeMode: Text.Fit
-        minimumPointSize: 10
-        font.pointSize: 20
-        z: 10
-    }
+    Row{
+        width: parent.width
+        height: 100
+        spacing: 10
+        Text{
+            id: scoresView
+            width: parent.width / 4 - 30
+            text: "Score :" + Score.score.toString()
+            color: "white"
+            fontSizeMode: Text.Fit
+            minimumPointSize: 10
+            font.pointSize: 20
+            z: 10
+        }
 
-    Text{
-        id: timerView
-        x : game.width-200
-        width: 200
-        text: "Time :" + game.timeLevelS.toString()
-        color: "white"
-        fontSizeMode: Text.Fit
-        minimumPointSize: 10
-        font.pointSize: 20
-        z: 10
-    }
+        Text{
+            id: timerView
+            width: parent.width / 4 - 30
+            text: "Time :" + game.timeLevelS.toString()
+            color: "white"
+            fontSizeMode: Text.Fit
+            minimumPointSize: 10
+            font.pointSize: 20
+            z: 10
+        }
 
-    Text{
-        id: livesView
-        width: 200
-        x : (game.width/4)-100
-        text: "Lives :" + spaceShip.lives.toString()
-        color: "white"
-        fontSizeMode: Text.Fit
-        minimumPointSize: 10
-        font.pointSize: 20
-        z: 10
-    }
+        Text{
+            id: livesView
+            width: parent.width / 4 - 30
+            text: "Lives :" + spaceShip.lives.toString()
+            color: "white"
+            fontSizeMode: Text.Fit
+            minimumPointSize: 10
+            font.pointSize: 20
+            z: 10
+        }
 
-    Text{
-        id: levelView
-        width: 200
-        x : (game.width/2)-100
-        text: "Level :" + game.level.toString()
-        color: "white"
-        fontSizeMode: Text.Fit
-        minimumPointSize: 10
-        font.pointSize: 20
-        z: 10
+        Text{
+            id: levelView
+            width: parent.width / 4 - 30
+            text: "Level :" + game.level.toString()
+            color: "white"
+            fontSizeMode: Text.Fit
+            minimumPointSize: 10
+            font.pointSize: 20
+            z: 10
+        }
     }
 
     Timer {
@@ -218,29 +221,24 @@ Item {
         height: 50
     }
 
-//    SoundEffect{
-//        id: soundShoot
-//        source: "content/sounds/laser_widebeam.wav"
-//    }
-
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
-            //soundShoot.play();
+            Sounds.spaceshipGun.play();
         }
-        onPositionChanged:{
-            spaceShip.x = mouseX;
-            spaceShip.y = mouseY;
-        }
+//        onPositionChanged:{
+//            spaceShip.x = mouseX;
+//            spaceShip.y = mouseY;
+//        }
     }
 
     Accelerometer{
         id: accel
         dataRate: 200
-        active: false
+        active: true
 
         onReadingChanged:{
             var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1

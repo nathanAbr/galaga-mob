@@ -11,16 +11,6 @@ ApplicationWindow {
     visible: true
     visibility: "FullScreen"
     title: qsTr("Hello World")
-    property var db: LocalStorage.openDatabaseSync("QGalagamob", "1.0", "Save the score", 1000000);
-
-    Component.onCompleted: {
-        db.transaction(
-            function(tx){
-                //tx.executeSql('DROP TABLE IF EXISTS Scores');
-                tx.executeSql('CREATE TABLE IF NOT EXISTS Scores(date TEXT, score INTEGER)');
-            }
-        );
-    }
 
     Rectangle {
         focus: true
@@ -60,15 +50,8 @@ ApplicationWindow {
         }
     }
 
-
-
-
     Loader{
         source: LoaderPage.url
         anchors.fill: parent
-    }
-
-    function multip(a, b){
-        return a * b;
     }
 }
