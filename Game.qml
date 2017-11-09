@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtSensors 5.0
 import QtMultimedia 5.9
 import Qt.SoundManager.qSoundManagerSingleton 1.0
+import Qt.score.qScoreSingleton 1.0
 
 Item {
     id: game
@@ -17,11 +18,13 @@ Item {
     property real leftEnemy
     property real lastCount
     property real level: 0
-    property int scores: 0
     property real timeLevelMs: 30000;
     property real timeLevelS: 30;
 
-    Component.onCompleted: createEnemies()
+    Component.onCompleted: {
+        Score.score = 0;
+        createEnemies()
+    }
 
     ListModel{
         id: listEnemies
@@ -30,7 +33,7 @@ Item {
     Text{
         id: scoresView
         width: 200
-        text: "Scores :" + game.scores.toString()
+        text: "Score :" + Score.score.toString()
         color: "white"
         fontSizeMode: Text.Fit
         minimumPointSize: 10
@@ -121,7 +124,7 @@ Item {
         if (listEnemies.count == 0){
             createEnemies();
             refreshEnemy.restart();
-            game.scores += 1000 * game.level;
+            Score.score += 1000 * game.level;
             return;
         }
         if (listEnemies.count != game.lastCount){
@@ -224,16 +227,16 @@ Item {
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
             Sounds.spaceshipGun.play();
         }
-//        onPositionChanged:{
-//            spaceShip.x = mouseX;
-//            spaceShip.y = mouseY;
-//        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
+        }
     }
 
     Accelerometer{
         id: accel
         dataRate: 200
-        active: true
+        active: false
 
         onReadingChanged:{
             var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1

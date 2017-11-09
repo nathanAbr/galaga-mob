@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     //qputenv("QSG_VISUALIZE", "overdraw");
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/PageLoader.qml")), "Qt.loader.qLoaderPageSingleton", 1, 0, "LoaderPage");
     qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/SoundManager.qml")), "Qt.SoundManager.qSoundManagerSingleton", 1, 0, "Sounds");
+    qmlRegisterSingletonType(QUrl(QStringLiteral("qrc:/Score.qml")), "Qt.score.qScoreSingleton", 1, 0, "Score");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

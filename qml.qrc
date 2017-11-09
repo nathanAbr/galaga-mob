@@ -10,12 +10,18 @@
         <file>Menu.qml</file>
         <file>PageLoader.qml</file>
         <file>SoundManager.qml</file>
+        <file>GameOver.qml</file>
+        <file>Score.qml</file>
+        <file>GameBis.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>
         <file>fonds.jpg</file>
         <file>enemy1.png</file>
         <file>background.png</file>
+        <file>star1.png</file>
+        <file>sprites_0.png</file>
+        <file>sprites_1.png</file>
     </qresource>
     <qresource prefix="/content/sounds">
         <file>bossgalaga_destroyed.wav</file>
