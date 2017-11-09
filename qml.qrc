@@ -13,6 +13,7 @@
         <file>GameOver.qml</file>
         <file>Score.qml</file>
         <file>GameBis.qml</file>
+        <file>Database.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>

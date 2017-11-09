@@ -29,9 +29,9 @@ Rectangle{
     onYChanged: {
         if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
             if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
-                spaceShip.lives--;
                 Sounds.spaceshipExplosion.play();
                 enemyFire.destroy();
+                spaceShip.lives = spaceShip.lives - 1;
             }
         }
     }
