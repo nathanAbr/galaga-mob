@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.9
+import Qt.SoundManager.qSoundManagerSingleton 1.0
 
 Rectangle{
     color: "red"
@@ -24,16 +25,12 @@ Rectangle{
             }
         }
     }
-//    SoundEffect{
-//        id: spaceShipExplosion
-//        source: "content/sounds/explosion.wav"
-//    }
 
     onYChanged: {
         if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
             if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
                 spaceShip.lives--;
-                //spaceShipExplosion.play();
+                Sounds.spaceshipExplosion.play();
                 enemyFire.destroy();
             }
         }

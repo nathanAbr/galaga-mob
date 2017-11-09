@@ -37,6 +37,7 @@ Rectangle{
             if(gun.y >= enemyY && gun.y <= yHeight){
                 if(gun.x >= enemyX && gun.x <= xHeight){
                     game.scores = game.scores + data.pointValue;
+                    //data.burst.pulse(200);
                     listEnemies.remove(i);
                     gun.destroy();
                 }

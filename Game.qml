@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtSensors 5.0
 import QtMultimedia 5.9
+import Qt.SoundManager.qSoundManagerSingleton 1.0
 
 Item {
     id: game
@@ -159,7 +160,6 @@ Item {
         }
         game.offset = listEnemies.get(0).offset;
         var chances = Math.max(0.95 - (game.level - 1) * 0.01, 0.80);
-        console.log(chances);
         var fire = Math.random() > chances;
         if (fire){
             var component = Qt.createComponent("EnemyFire.qml");
@@ -216,18 +216,13 @@ Item {
         height: 50
     }
 
-//    SoundEffect{
-//        id: soundShoot
-//        source: "content/sounds/laser_widebeam.wav"
-//    }
-
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
-            //soundShoot.play();
+            Sounds.spaceshipGun.play();
         }
 //        onPositionChanged:{
 //            spaceShip.x = mouseX;
