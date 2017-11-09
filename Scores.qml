@@ -1,30 +1,72 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.2
 import Qt.loader.qLoaderPageSingleton 1.0
 
 Item {
     anchors.fill: parent
-    Text{
-        width: 100
-        anchors.centerIn: parent
-        color: "white"
-        fontSizeMode: Text.Fit
-        minimumPointSize: 10
-        font.pointSize: 30
-        text: ""
-        function getScores(){
-            mainWindow.db.transaction(
-                function(tx) {
-                    var rs = tx.executeSql('SELECT * FROM Scores ORDER BY score DESC');
-                    var r = "";
-                    for (var i = 0; i < rs.rows.length; i++) {
-                        r += rs.rows.item(i).date + ", " + rs.rows.item(i).score + "\n";
-                    }
-                    text = r;
-                }
-            )
-        }
-        Component.onCompleted: getScores();
+
+    Component.onCompleted: getScore()
+
+    ListModel{
+        id: scoresList
     }
+
+    Rectangle{
+        width: childrenRect.width + 100
+        height: parent.height / 2
+        anchors.centerIn: parent
+        color: 'transparent'
+
+        Component{
+            id: scoreDelegate
+
+            Item{
+                width: childrenRect.width
+                height: childrenRect.height
+                anchors.horizontalCenter: parent.horizontalCenter
+                Column{
+//                        Text { text: '<b>' + name + '</b>: ' + score}
+//                        Text { text: date }
+                    Text {
+                        font.pointSize: 16
+                        text: score
+                        color: 'white'
+                    }
+                    Text {
+                        color: 'white'
+                        text: date
+                    }
+                }
+            }
+        }
+
+        ListView{
+            anchors.fill: parent
+            model: scoresList
+            delegate: scoreDelegate
+            clip: true
+            flickableDirection: Flickable.VerticalFlick
+            boundsBehavior: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar {}
+        }
+    }
+
+    function getScore(){
+        mainWindow.db.transaction(
+            function(tx) {
+                var rs = tx.executeSql('SELECT * FROM Scores ORDER BY score DESC');
+                for (var i = 0; i < rs.rows.length; i++) {
+                    scoresList.append(
+                                {
+                                    "date" : rs.rows.item(i).date,
+                                    "score" : rs.rows.item(i).score
+                                    //"name": rs.rows.item(i).name
+                                });
+                }
+            }
+        );
+    }
+
     Rectangle{
         color: "#AAA"
         opacity: 0.6

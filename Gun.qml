@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Qt.score.qScoreSingleton 1.0
 
 Rectangle{
     color: "green"
@@ -36,7 +37,7 @@ Rectangle{
             var xHeight = enemyX + data.size;
             if(gun.y >= enemyY && gun.y <= yHeight){
                 if(gun.x >= enemyX && gun.x <= xHeight){
-                    game.scores = game.scores + data.pointValue;
+                    Score.score = Score.score + data.pointValue;
                     listEnemies.remove(i);
                     gun.destroy();
                 }
