@@ -17,6 +17,8 @@ Item {
     property real lastCount
     property real level: 0
     property int scores: 0
+    property real timeLevelMs: 30000;
+    property real timeLevelS: 30;
 
     Component.onCompleted: createEnemies()
 
@@ -36,10 +38,34 @@ Item {
     }
 
     Text{
+        id: timerView
+        x : game.width-200
+        width: 200
+        text: "Time :" + game.timeLevelS.toString()
+        color: "white"
+        fontSizeMode: Text.Fit
+        minimumPointSize: 10
+        font.pointSize: 20
+        z: 10
+    }
+
+    Text{
         id: livesView
         width: 200
-        x : game.width-200
+        x : (game.width/4)-100
         text: "Lives :" + spaceShip.lives.toString()
+        color: "white"
+        fontSizeMode: Text.Fit
+        minimumPointSize: 10
+        font.pointSize: 20
+        z: 10
+    }
+
+    Text{
+        id: levelView
+        width: 200
+        x : (game.width/2)-100
+        text: "Level :" + game.level.toString()
         color: "white"
         fontSizeMode: Text.Fit
         minimumPointSize: 10
@@ -53,8 +79,12 @@ Item {
     }
 
     Timer {
-        interval: 20000; running: true; repeat: true;
-        onTriggered: createEnemies()
+        id: refreshEnemy
+        interval: 30000; running: true; repeat: true;
+        onTriggered: {
+            game.level--;
+            createEnemies()
+        }
     }
 
     function getLeftAndRightEnemies(){
@@ -85,8 +115,12 @@ Item {
     }
 
     function moveEnemies(){
+        game.timeLevelMs = game.timeLevelMs - 17;
+        game.timeLevelS = Math.floor(game.timeLevelMs/1000);
         if (listEnemies.count == 0){
             createEnemies();
+            refreshEnemy.restart();
+            game.scores += 1000 * game.level;
             return;
         }
         if (listEnemies.count != game.lastCount){
@@ -124,6 +158,14 @@ Item {
             listEnemies.get(i).offset += (vitesse*3);
         }
         game.offset = listEnemies.get(0).offset;
+        var chances = Math.max(0.95 - (game.level - 1) * 0.01, 0.80);
+        console.log(chances);
+        var fire = Math.random() > chances;
+        if (fire){
+            var component = Qt.createComponent("EnemyFire.qml");
+            var i = Math.floor(Math.random() * (listEnemies.count - 1));
+            var sprite = component.createObject(mainWindow, {"enemy": listEnemies.get(i), "offset": game.offset});
+        }
     }
 
     Repeater{
@@ -141,6 +183,8 @@ Item {
     function createEnemies(){
         var xi = 0;
         var yi = 0;
+        game.timeLevelMs = 30000;
+        game.timeLevelS = 0;
         var columnMax = game.nbColumn;
         game.dir = 1;
         game.level++;
@@ -163,7 +207,7 @@ Item {
             }
         }
         game.lastCount = listEnemies.count;
-        //game.getLeftAndRightEnemies();
+        game.getLeftAndRightEnemies();
     }
 
     Spaceship{

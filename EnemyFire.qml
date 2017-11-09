@@ -6,9 +6,8 @@ Rectangle{
     id: enemyFire
     width: 5
     height: 15
-    x: 0
-    y: 0
-    property real customPadding
+    property QtObject enemy
+    property real offset
 
     SequentialAnimation{
         id: enemeyFireShoot
@@ -40,5 +39,11 @@ Rectangle{
         }
     }
 
-    Component.onCompleted: enemeyFireShoot.running = true
+    Component.onCompleted: init()
+
+    function init(){
+        enemyFire.x = enemy.customPadding + (enemy.column * enemy.size) + (enemy.column * enemy.customPadding) + enemyFire.offset + (enemy.size  / 2);
+        enemyFire.y = enemy.customPadding + (enemy.row * enemy.size) + (enemy.row * enemy.customPadding) + enemy.size;
+        enemeyFireShoot.running = true;
+    }
 }

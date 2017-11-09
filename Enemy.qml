@@ -25,14 +25,14 @@ Item {
         transform: Rotation { origin.x: 25; origin.y: 25; angle: 180}
     }
 
-    Timer{
-        interval:  Math.floor((Math.random() * 10000) + 4000)
-        running: true
-        repeat: true
-        onTriggered: {
-            var component = Qt.createComponent("EnemyFire.qml");
-            var sprite = component.createObject(mainWindow, {"x": parent.x + parent.width / 2, "y": parent.y});
-            //soundEnemyShoot.play();
-        }
-    }
+//    Timer{
+//        interval:  Math.floor((Math.random() * 10000) + 4000)
+//        running: true
+//        repeat: true
+//        onTriggered: {
+//            var component = Qt.createComponent("EnemyFire.qml");
+//            var sprite = component.createObject(mainWindow, {"x": parent.x + parent.width / 2, "y": parent.y});
+//            //soundEnemyShoot.play();
+//        }
+//    }
 }
