@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Qt.loader.qLoaderPageSingleton 1.0
 
 Item {
     Column{
@@ -26,7 +27,7 @@ Item {
                     id: mouseArea
                     anchors.fill: parent
                     onClicked: {
-                        gameLoader.source = model.url
+                        LoaderPage.url = model.url
                     }
                 }
             }
@@ -37,11 +38,11 @@ Item {
         id: listMenuButton
         ListElement{
             label: "PLAY GAME"
-            url: "Game.qml"
+            url: "qrc:/Game.qml"
         }
         ListElement{
             label: "SCORES"
-            url: "Scores.qml"
+            url: "qrc:/Scores.qml"
         }
     }
 }
