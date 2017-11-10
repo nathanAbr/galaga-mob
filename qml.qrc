@@ -15,6 +15,9 @@
         <file>Database.qml</file>
         <file>BluetoothConnect.qml</file>
         <file>Device.qml</file>
+        <file>GameCoop.qml</file>
+        <file>BluetoothRegistered.qml</file>
+        <file>BluetoothScreen.qml</file>
     </qresource>
     <qresource prefix="/content">
         <file>spacesheep.png</file>

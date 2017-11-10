@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtBluetooth 5.9
+import Qt.loader.qLoaderPageSingleton 1.0
 
 Item {
 
@@ -21,6 +22,7 @@ Item {
         delegate: Device{
             name: deviceName
             adress: discovery.remoteAddress
+            bluetoothService: service
         }
     }
 
