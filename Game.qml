@@ -30,10 +30,16 @@ Item {
     }
 
     property bool explode : false
+    property bool shootedBool : false
 
     onExplodeChanged: {
         explosed.burst(150);
         explode = false;
+    }
+
+    onShootedBoolChanged: {
+        explosedGun.burst(150);
+        shootedBool = false;
     }
 
     ListModel{
@@ -46,6 +52,34 @@ Item {
         game.killedY = enemyKilled.customPadding + (enemyKilled.row * enemyKilled.size) + (enemyKilled.row * enemyKilled.customPadding) + (enemyKilled.size/2);
         game.explode = true;
         listEnemies.remove(i);
+    }
+
+    function shooted(varx, vary){
+        explosedGun.x = varx;
+        explosedGun.y = vary;
+        game.shootedBool= true;
+    }
+
+    ParticleSystem{
+        id: particlesGun
+
+        ImageParticle{
+            source: "/content/point.png"
+            colorVariation: 0.1
+            color: "#00ff400f"
+        }
+
+        Emitter{
+            id: explosedGun
+            size: 6
+            sizeVariation: 2
+            endSize: 2
+            lifeSpan: 200
+            lifeSpanVariation: 0
+            enabled: false
+
+            velocity: AngleDirection { angle: 270; angleVariation: 360; magnitude: 80; magnitudeVariation: 25 }
+        }
     }
 
     ParticleSystem{
@@ -126,12 +160,27 @@ Item {
         onTriggered: moveEnemies()
     }
 
+
+    Timer {
+        interval: 100; running: true; repeat: true;
+        onTriggered: shoot()
+    }
+
     Timer {
         id: refreshEnemy
         interval: 30000; running: true; repeat: true;
         onTriggered: {
             game.level--;
-            createEnemies()
+            createEnemies();
+            spaceShip.lives--;
+        }
+    }
+
+    function shoot(){
+        if(mouse.pressed){
+            var component = Qt.createComponent("Gun.qml");
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
+            Sounds.spaceshipGun.play();
         }
     }
 
@@ -169,6 +218,7 @@ Item {
             createEnemies();
             refreshEnemy.restart();
             Score.score += 1000 * game.level;
+            spaceShip.lives++;
             return;
         }
         if (listEnemies.count != game.lastCount){
@@ -264,8 +314,10 @@ Item {
     }
 
     MouseArea{
+        id: mouse
         anchors.fill: parent
         hoverEnabled: true
+
         onClicked:{
             var component = Qt.createComponent("Gun.qml");
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
@@ -274,6 +326,8 @@ Item {
 //        onPositionChanged:{
 //            spaceShip.x = mouseX;
 //            spaceShip.y = mouseY;
+//            Score.spaceShipX = spaceShip.x;
+//            Score.spaceShipY = spaceShip.y;
 //        }
     }
 
@@ -297,6 +351,8 @@ Item {
 
             spaceShip.x = xPos
             spaceShip.y = yPos
+            Score.spaceShipX = spaceShip.x;
+            Score.spaceShipY = spaceShip.y;
         }
     }
 
