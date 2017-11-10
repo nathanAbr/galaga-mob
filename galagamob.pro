@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick sensors multimedia core
+QT += qml quick sensors multimedia core bluetooth
 CONFIG += c++11
 
 SOURCES += main.cpp

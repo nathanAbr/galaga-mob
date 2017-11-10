@@ -44,5 +44,9 @@ Item {
             label: "SCORES"
             url: "qrc:/Scores.qml"
         }
+        ListElement{
+            label: "CONNECTION"
+            url: "qrc:/BluetoothConnect.qml"
+        }
     }
 }
