@@ -23,6 +23,9 @@ Item {
     property real timeLevelS: 30;
     property real killedX
     property real killedY
+    property bool onPressedShoot: true
+    property real onPressedValue: 0
+    property real onReleasedShoot: 0
 
     Component.onCompleted: {
         Score.score = 0;
@@ -157,9 +160,10 @@ Item {
 
     Timer {
         interval: 17; running: true; repeat: true;
-        onTriggered: moveEnemies()
+        onTriggered: {
+            moveEnemies();
+        }
     }
-
 
     Timer {
         interval: 100; running: true; repeat: true;
@@ -177,10 +181,24 @@ Item {
     }
 
     function shoot(){
-        if(mouse.pressed){
-            var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
-            Sounds.spaceshipGun.play();
+        if(mouse.pressed && onPressedShoot && onReleasedShoot == 0){
+            onPressedValue += 100;
+            if(onPressedValue <= 5000){
+                var component = Qt.createComponent("Gun.qml");
+                var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
+                Sounds.spaceshipGun.play();
+            }
+            else{
+                onPressedShoot = false;
+            }
+        }
+        if(!onPressedShoot){
+            onReleasedShoot += 100;
+            if(onReleasedShoot >= 3000){
+                onPressedShoot = true;
+                onPressedValue = 0;
+                onReleasedShoot = 0;
+            }
         }
     }
 
@@ -318,10 +336,16 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
 
+        onPressed: {
+
+        }
+
         onClicked:{
-            var component = Qt.createComponent("Gun.qml");
-            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
-            Sounds.spaceshipGun.play();
+            if(onReleasedShoot == 0){
+                var component = Qt.createComponent("Gun.qml");
+                var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
+                Sounds.spaceshipGun.play();
+            }
         }
 //        onPositionChanged:{
 //            spaceShip.x = mouseX;
