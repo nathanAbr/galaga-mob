@@ -23,4 +23,26 @@ Item {
             adress: discovery.remoteAddress
         }
     }
+
+    Rectangle{
+        color: "#AAA"
+        opacity: 0.6
+        width: 100
+        height: 40
+        radius: 10
+        Text{
+            text: "Back"
+            anchors.centerIn: parent
+            color: "white"
+            fontSizeMode: Text.Fit
+            minimumPointSize: 10
+            font.pointSize: 20
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                LoaderPage.url = "Menu.qml";
+            }
+        }
+    }
 }
