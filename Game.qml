@@ -23,9 +23,9 @@ Item {
     property real timeLevelS: 30;
     property real killedX
     property real killedY
-    property bool onPressedShoot: true
-    property real onPressedValue: 0
-    property real onReleasedShoot: 0
+    property bool shooting: false
+    property real timeShooting: 0
+    property bool canShoot: true
 
     Component.onCompleted: {
         Score.score = 0;
@@ -109,6 +109,36 @@ Item {
         }
     }
 
+    ParticleSystem {
+        id: particleSystem
+
+        Emitter {
+            id: spaceShipSmoke
+            x: spaceShip.x + spaceShip.width/2
+            y: spaceShip.y + spaceShip.height
+            width: 1; height: 1
+            system: particleSystem
+            emitRate: 100
+            lifeSpan: 600
+            lifeSpanVariation: 50
+            size: 4
+            sizeVariation: 1
+            velocity: PointDirection {
+                x: 0
+                y: 100
+                xVariation: 100/3
+                yVariation: 0
+            }
+        }
+
+        ImageParticle {
+            source: "/content/point.png"
+            system: particleSystem
+            colorVariation: 0.1
+            color: "#00ff400f"
+        }
+    }
+
     Row{
         width: parent.width
         height: 100
@@ -161,6 +191,7 @@ Item {
     Timer {
         interval: 17; running: true; repeat: true;
         onTriggered: {
+            longShooting();
             moveEnemies();
         }
     }
@@ -181,24 +212,10 @@ Item {
     }
 
     function shoot(){
-        if(mouse.pressed && onPressedShoot && onReleasedShoot == 0){
-            onPressedValue += 100;
-            if(onPressedValue <= 5000){
-                var component = Qt.createComponent("Gun.qml");
-                var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
-                Sounds.spaceshipGun.play();
-            }
-            else{
-                onPressedShoot = false;
-            }
-        }
-        if(!onPressedShoot){
-            onReleasedShoot += 100;
-            if(onReleasedShoot >= 3000){
-                onPressedShoot = true;
-                onPressedValue = 0;
-                onReleasedShoot = 0;
-            }
+        if(mouse.pressed && game.canShoot){
+            var component = Qt.createComponent("Gun.qml");
+            var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
+            Sounds.spaceshipGun.play();
         }
     }
 
@@ -227,6 +244,28 @@ Item {
         }
         game.rightEnemy = rightTempIndex;
         game.leftEnemy = leftTempIndex;
+    }
+
+    function longShooting(){
+        if(game.shooting && game.canShoot){
+            game.timeShooting += 17;
+        }else if (game.timeShooting > 0){
+            game.timeShooting -= 17;
+        }
+
+        if(game.timeShooting < 0){
+            game.timeShooting = 0;
+        }
+
+        if(game.timeShooting > 5000){
+            game.timeShooting = 5000;
+        }
+
+        if(game.timeShooting >= 5000){
+            game.canShoot = false;
+        }else if (game.timeShooting == 0){
+            game.canShoot = true;
+        }
     }
 
     function moveEnemies(){
@@ -335,30 +374,28 @@ Item {
         id: mouse
         anchors.fill: parent
         hoverEnabled: true
-
-        onPressed: {
-
-        }
-
+        cursorShape: Qt.BlankCursor;
         onClicked:{
-            if(onReleasedShoot == 0){
+            if(game.canShoot){
                 var component = Qt.createComponent("Gun.qml");
                 var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
                 Sounds.spaceshipGun.play();
             }
         }
-//        onPositionChanged:{
-//            spaceShip.x = mouseX;
-//            spaceShip.y = mouseY;
-//            Score.spaceShipX = spaceShip.x;
-//            Score.spaceShipY = spaceShip.y;
-//        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
+            Score.spaceShipX = spaceShip.x;
+            Score.spaceShipY = spaceShip.y;
+        }
+        onPressed: game.shooting = true
+        onReleased: game.shooting = false
     }
 
     Accelerometer{
         id: accel
         dataRate: 200
-        active: true
+        active: false
 
         onReadingChanged:{
             var xPos = spaceShip.x + calcRoll(accel.reading.x, accel.reading.y, accel.reading.z) * .1
@@ -386,4 +423,30 @@ Item {
     function calcRoll(x,y,z) {
         return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
     }
+
+    Rectangle{
+        x: game.width / 2 - 250
+        y: game.height - 100
+        width: 500
+        height: 25
+        color: "white"
+    }
+
+    Rectangle{
+        id: shootInfo
+        x: game.width / 2 - 250
+        y: game.height - 100
+        width: 500 * game.timeShooting / 5000
+        height: 25
+        color: "green"
+
+        onWidthChanged: {
+            if(shootInfo.width == 500){
+                shootInfo.color = "red";
+            }else if(shootInfo.width == 0){
+                shootInfo.color = "green";
+            }
+        }
+    }
+
 }
