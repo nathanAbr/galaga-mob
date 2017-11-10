@@ -2,9 +2,41 @@ import QtQuick 2.0
 import Qt.loader.qLoaderPageSingleton 1.0
 import Qt.score.qScoreSingleton 1.0
 import Qt.db.qDatabaseSingleton 1.0
+import QtQuick.Particles 2.0
+import Qt.score.qScoreSingleton 1.0
 
 Item{
     anchors.fill: parent
+    id: gameOver
+
+    Component.onCompleted: {
+        explosed.x = Score.spaceShipX;
+        explosed.y = Score.spaceShipY;
+        explosed.burst(150);
+    }
+
+    ParticleSystem{
+        id: particles
+
+        ImageParticle{
+            source: "/content/point.png"
+            colorVariation: 0.1
+            color: "#00ff400f"
+        }
+
+        Emitter{
+            id: explosed
+            size: 12
+            sizeVariation: 4
+            endSize: 2
+            lifeSpan: 800
+            lifeSpanVariation: 0
+            enabled: false
+
+            velocity: AngleDirection { angle: 270; angleVariation: 360; magnitude: 120; magnitudeVariation: 40 }
+        }
+    }
+
     Column{
         anchors.centerIn: parent
         Text {

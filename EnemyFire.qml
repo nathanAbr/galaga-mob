@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtMultimedia 5.9
 import Qt.SoundManager.qSoundManagerSingleton 1.0
+import QtQuick.Particles 2.0
 
 Rectangle{
     color: "red"
@@ -9,6 +10,7 @@ Rectangle{
     height: 15
     property QtObject enemy
     property real offset
+    property bool touched: false
 
     SequentialAnimation{
         id: enemeyFireShoot
@@ -27,11 +29,13 @@ Rectangle{
     }
 
     onYChanged: {
-        if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height)){
+        if((enemyFire.y + enemyFire.height) >= spaceShip.y && (enemyFire.y + enemyFire.height) <= (spaceShip.y + spaceShip.height) && !touched){
             if(enemyFire.x >= spaceShip.x && enemyFire.x <= (spaceShip.x + spaceShip.width)){
                 Sounds.spaceshipExplosion.play();
-                enemyFire.destroy();
+                game.shooted(enemyFire.x, enemyFire.y + enemyFire.height);
                 spaceShip.lives = spaceShip.lives - 1;
+                touched = true;
+                enemyFire.destroy();
             }
         }
     }
