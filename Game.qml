@@ -388,12 +388,12 @@ Item {
                 Sounds.spaceshipGun.play();
             }
         }
-//        onPositionChanged:{
-//            spaceShip.x = mouseX;
-//            spaceShip.y = mouseY;
-//            Score.spaceShipX = spaceShip.x;
-//            Score.spaceShipY = spaceShip.y;
-//        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
+            Score.spaceShipX = spaceShip.x;
+            Score.spaceShipY = spaceShip.y;
+        }
         onPressed: game.shooting = true
         onReleased: game.shooting = false
     }

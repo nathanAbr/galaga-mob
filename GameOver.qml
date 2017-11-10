@@ -51,7 +51,19 @@ Item{
         }
         TextInput {
             id: pseudo
+            width: 200
+            height: 50
             text: "Pseudo"
+            color: "white"
+            font.pointSize: 30
+
+            onFocusChanged: {
+                if (focus == true){
+                    if (text == "Pseudo"){
+                        pseudo.clear();
+                    }
+                }
+            }
         }
         Row{
             Rectangle{
@@ -97,7 +109,7 @@ Item{
                         Database.db.transaction(
                             function(tx){
                                 var date = new Date();
-                                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score, pseudo.text]);
+                                tx.executeSql('INSERT INTO Scores VALUES (?, ?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score, pseudo.text]);
                             }
                         );
                         LoaderPage.url = "Menu.qml";
