@@ -5,12 +5,8 @@ import Qt.db.qDatabaseSingleton 1.0
 
 Item{
     anchors.fill: parent
-    anchors.centerIn: parent
-
     Column{
         anchors.centerIn: parent
-        width: parent.width
-        height: 300
         Text {
             font.pointSize: 60
             color: 'white'

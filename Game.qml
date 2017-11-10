@@ -3,6 +3,7 @@ import QtSensors 5.0
 import QtMultimedia 5.9
 import Qt.SoundManager.qSoundManagerSingleton 1.0
 import Qt.score.qScoreSingleton 1.0
+import QtQuick.Particles 2.0
 
 Item {
     id: game
@@ -20,14 +21,55 @@ Item {
     property real level: 0
     property real timeLevelMs: 30000;
     property real timeLevelS: 30;
+    property real killedX
+    property real killedY
 
     Component.onCompleted: {
         Score.score = 0;
         createEnemies()
     }
 
+    property bool explode : false
+
+    onExplodeChanged: {
+        explosed.burst(150);
+        explode = false;
+    }
+
     ListModel{
         id: listEnemies
+    }
+
+    function kill(i){
+        var enemyKilled = listEnemies.get(i);
+        game.killedX = enemyKilled.customPadding + (enemyKilled.column * enemyKilled.size) + (enemyKilled.column * enemyKilled.customPadding) + enemyKilled.offset + (enemyKilled.size/2);
+        game.killedY = enemyKilled.customPadding + (enemyKilled.row * enemyKilled.size) + (enemyKilled.row * enemyKilled.customPadding) + (enemyKilled.size/2);
+        game.explode = true;
+        listEnemies.remove(i);
+    }
+
+    ParticleSystem{
+        id: particles
+
+        ImageParticle{
+            source: "/content/point.png"
+            colorVariation: 0.1
+            color: "#00ff400f"
+        }
+
+        Emitter{
+            id: explosed
+            x: game.killedX
+            y: game.killedY
+            size: 12
+            sizeVariation: 4
+            endSize: 2
+            lifeSpan: 400
+            lifeSpanVariation: 0
+            enabled: false
+
+            velocity: AngleDirection { angle: 270; angleVariation: 360; magnitude: 80; magnitudeVariation: 25 }
+        }
     }
 
     Row{
@@ -229,10 +271,10 @@ Item {
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
             Sounds.spaceshipGun.play();
         }
-//        onPositionChanged:{
-//            spaceShip.x = mouseX;
-//            spaceShip.y = mouseY;
-//        }
+        onPositionChanged:{
+            spaceShip.x = mouseX;
+            spaceShip.y = mouseY;
+        }
     }
 
     Accelerometer{

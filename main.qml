@@ -33,7 +33,6 @@ ApplicationWindow {
             lifeSpanVariation: 400
             size: 32
             sizeVariation: 16
-            endSize: 48
             //velocity: AngleDirection { angle: 270; magnitude: 150; magnitudeVariation: 10 }
             velocity: AngleDirection { angle: 90; magnitude: 150; magnitudeVariation: 50}
         }
@@ -46,7 +45,6 @@ ApplicationWindow {
             rotationVariation: 45
             rotationVelocity: 15
             rotationVelocityVariation: 15
-            entryEffect: ImageParticle.Scale
         }
     }
 
