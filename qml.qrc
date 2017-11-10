@@ -28,6 +28,7 @@
         <file>stars_2.png</file>
         <file>stars_3.png</file>
         <file>stars_4.png</file>
+        <file>point.png</file>
     </qresource>
     <qresource prefix="/content/sounds">
         <file>bossgalaga_destroyed.wav</file>
