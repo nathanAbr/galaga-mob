@@ -12,7 +12,7 @@ Item {
     property int pointValue
 
     x: customPadding + (column * width) + (column * customPadding) + offset
-    y: customPadding + (row * width) + (row * customPadding)
+    y: customPadding + (row * width) + (row * customPadding) + 50
 
     Image{
         id: enemyImg

@@ -26,6 +26,7 @@ Item {
     property bool shooting: false
     property real timeShooting: 0
     property bool canShoot: true
+    property real enemyCount
 
     Component.onCompleted: {
         Score.score = 0;
@@ -204,7 +205,7 @@ Item {
 
     Timer {
         id: refreshEnemy
-        interval: 30000; running: true; repeat: true;
+        interval: game.timeLevelMs; running: true; repeat: true;
         onTriggered: {
             game.level--;
             createEnemies();
@@ -284,7 +285,9 @@ Item {
         }
 
         var rand = Math.random() * 100;
-        if(rand > 99){
+        var diff = 100 - (0.1 * (game.level-1));
+        var proba = diff - (listEnemies.count / game.enemyCount);
+        if(rand > proba){
             game.dir = (game.dir == 0 ? 1 : 0);
         }
         var vitesse = -1;
@@ -345,6 +348,9 @@ Item {
         game.level++;
         var rand = Math.floor((Math.random() * 60) + 40);
         var tempOffset = (game.offset != null ? game.offset : 0);
+        game.enemyCount = rand;
+        var diff = Math.max(0.25, 0.50 - (game.level * 0.01 ));
+        game.timeLevelMs = Math.floor(game.enemyCount * diff) * 1000;
         for (var i = 1 ; i < rand ; i++){
             listEnemies.append(
                         {
