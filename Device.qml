@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item {
 
-    property string name
+    property string name: "Name"
     property string adress
 
     width: parent.width
@@ -10,8 +10,15 @@ Item {
     Rectangle{
         color: "transparent"
         anchors.fill: parent
-        Text{
-            text: name
+        Column{
+            Text{
+                text: name
+                color: "green"
+            }
+            Text{
+                text: adress
+                color: "green"
+            }
         }
         MouseArea{
             anchors.fill: parent

@@ -271,10 +271,10 @@ Item {
             var sprite = component.createObject(mainWindow, {"x": spaceShip.x + spaceShip.width / 2, "y": spaceShip.y, "listEnemies": listEnemies, "customPadding": game.customPadding, "windowHeight": game.height, "spaceY": spaceShip.y});
             Sounds.spaceshipGun.play();
         }
-        onPositionChanged:{
-            spaceShip.x = mouseX;
-            spaceShip.y = mouseY;
-        }
+//        onPositionChanged:{
+//            spaceShip.x = mouseX;
+//            spaceShip.y = mouseY;
+//        }
     }
 
     Accelerometer{
