@@ -30,7 +30,7 @@ Item {
 //                        Text { text: date }
                     Text {
                         font.pointSize: 16
-                        text: score
+                        text: '<b>' + name + '</b> : ' +score
                         color: 'white'
                     }
                     Text {
@@ -60,8 +60,8 @@ Item {
                     scoresList.append(
                                 {
                                     "date" : rs.rows.item(i).date,
-                                    "score" : rs.rows.item(i).score
-                                    //"name": rs.rows.item(i).name
+                                    "score" : rs.rows.item(i).score,
+                                    "name": rs.rows.item(i).pseudo
                                 });
                 }
             }

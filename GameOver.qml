@@ -49,6 +49,10 @@ Item{
             color: 'white'
             text: 'Your score : ' + Score.score;
         }
+        TextInput {
+            id: pseudo
+            text: "Pseudo"
+        }
         Row{
             Rectangle{
                 color: "#AAA"
@@ -68,7 +72,7 @@ Item{
                         Database.db.transaction(
                             function(tx){
                                 var date = new Date();
-                                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score]);
+                                tx.executeSql('INSERT INTO Scores VALUES (?, ?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score, pseudo.text]);
                             }
                         );
                         LoaderPage.url = "Game.qml";
@@ -93,7 +97,7 @@ Item{
                         Database.db.transaction(
                             function(tx){
                                 var date = new Date();
-                                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score]);
+                                tx.executeSql('INSERT INTO Scores VALUES (?, ?)', ["Le " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " à " + date.getHours() + ":" + date.getMinutes(), Score.score, pseudo.text]);
                             }
                         );
                         LoaderPage.url = "Menu.qml";
